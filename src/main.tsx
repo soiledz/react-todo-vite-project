@@ -1,10 +1,15 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import {StrictMode} from 'react'
+import {createRoot} from 'react-dom/client'
 import './index.css'
-import AppWithReducers from './App.tsx'
+import AppWithRedux from "./AppWithRedux.tsx";
+import {Provider} from "react-redux";
+import {store} from "./state/store.ts";
+
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <AppWithReducers />
-  </StrictMode>,
+    <StrictMode>
+        <Provider store={store}>
+            <AppWithRedux/>
+        </Provider>
+    </StrictMode>,
 )
