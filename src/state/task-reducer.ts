@@ -1,6 +1,6 @@
 import {TasksStateType} from "../App.tsx";
 import {v1} from "uuid";
-import {AddTodolistActionType, RemoveTodolistActionType} from "./todolists-reducer.ts";
+import {AddTodolistActionType, RemoveTodolistActionType, todolistsId1, todolistsId2} from "./todolists-reducer.ts";
 
 
 export type RemoveTaskActionType = {
@@ -26,10 +26,29 @@ export type ChangeTaskTitleActionType = {
     title: string
 }
 
-type ActionsTypes = RemoveTaskActionType | AddTaskActionType | ChangeTaskStatusActionType | ChangeTaskTitleActionType | AddTodolistActionType | RemoveTodolistActionType
+type ActionsTypes =
+    RemoveTaskActionType
+    | AddTaskActionType
+    | ChangeTaskStatusActionType
+    | ChangeTaskTitleActionType
+    | AddTodolistActionType
+    | RemoveTodolistActionType
+
+const initialState: TasksStateType = {
+    [todolistsId1]: [
+        {id: v1(), title: 'css', isDone: true},
+        {id: v1(), title: 'JS', isDone: true},
+        {id: v1(), title: 'React', isDone: false},
+        {id: v1(), title: 'Redux', isDone: false}
+    ],
+    [todolistsId2]: [
+        {id: v1(), title: 'book', isDone: false},
+        {id: v1(), title: 'milk', isDone: true}
+    ]
+}
 
 export const tasksReducer = (
-    state: TasksStateType,
+    state: TasksStateType = initialState,
     action: ActionsTypes): TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK": {
@@ -78,7 +97,7 @@ export const tasksReducer = (
         }
 
         default:
-            throw new Error("I don't understand this action type")
+            return state
     }
 }
 
@@ -95,7 +114,7 @@ export const changeTaskStatusAC = (taskId: string,
     return {type: 'CHANGE-TASK-STATUS', isDone, todolistId, taskId}
 }
 export const changeTaskTitleAC = (taskId: string,
-                                   title: string,
-                                   todolistId: string): ChangeTaskTitleActionType => {
+                                  title: string,
+                                  todolistId: string): ChangeTaskTitleActionType => {
     return {type: 'CHANGE-TASK-TITLE', title, todolistId, taskId}
 }

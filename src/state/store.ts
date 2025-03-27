@@ -7,7 +7,7 @@ const rootReducer = combineReducers({
     tasks: tasksReducer
 })
 
-type AppRootState = ReturnType<typeof rootReducer>
+export type AppRootState = ReturnType<typeof rootReducer>
 
 export const store = configureStore({
     reducer: rootReducer
