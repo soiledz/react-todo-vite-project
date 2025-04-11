@@ -1,4 +1,4 @@
-import {TasksStateType, TodolistType} from "../App.tsx";
+import {TasksStateType, TodolistType} from "../AppWithRedux.tsx";
 import {addTodolistAC, todolistsReducer} from "./todolists-reducer.ts";
 import {tasksReducer} from "./task-reducer.ts";
 

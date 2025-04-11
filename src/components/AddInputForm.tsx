@@ -1,12 +1,14 @@
-import {ChangeEvent, KeyboardEvent, useState} from "react";
+import {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
 import {IconButton, TextField} from "@mui/material";
 import {ControlPoint} from "@mui/icons-material";
+import * as React from "react";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-export function AddInputForm(props: AddItemFormPropsType) {
+export const AddInputForm = React.memo((props: AddItemFormPropsType) => {
+
     const [title, setTitle] = useState("")
     const [error, setError] = useState<string | null>(null)
 
@@ -15,7 +17,9 @@ export function AddInputForm(props: AddItemFormPropsType) {
     }
 
     const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
+        if (error !== null) {
+            setError(null)
+        }
         if (e.key === 'Enter' && title.trim() !== "") {
             props.addItem(title)
             setTitle("")
@@ -24,19 +28,19 @@ export function AddInputForm(props: AddItemFormPropsType) {
         }
     }
 
-    const addTask = () => {
+    const addTask = useCallback(() => {
         if (title.trim() === "") {
             return setError("Title is required")
         }
         props.addItem(title.trim())
         setTitle("")
-    }
+    }, [props, title])
 
     return <div>
         <TextField value={title}
                    label={"Type value"}
                    onChange={onNewTitleChangeHandler}
-                   onKeyPress={onKeyPress}
+                   onKeyDown={onKeyPress}
                    error={!!error}
                    helperText={error}
         />
@@ -44,4 +48,4 @@ export function AddInputForm(props: AddItemFormPropsType) {
             <ControlPoint/>
         </IconButton>
     </div>
-}
+})
